@@ -350,6 +350,14 @@ El sistema utiliza una infraestructura **Multi-Cloud** distribuida para garantiz
 - **Motor de ML (FastAPI)**: Desplegado en **Hugging Face**, optimizado para la ejecución del pipeline de Scikit-learn.
 - **Backend de Backup (Java/Spring)**: Implementado en **AWS** mediante una instancia dedicada y gestión de artefactos `.jar` a través de **AWS S3 Buckets**.
 
+> **Nota aclaratoria sobre infraestructura (Hackathon)**
+>
+> Este proyecto fue desarrollado en el marco de un **Hackathon organizado por Alura Latam, Oracle (OCI) y NoCountry**, donde se sugirió el uso de **Oracle Cloud Infrastructure (OCI – Free Tier)** como entorno de despliegue.
+>
+> Durante el desarrollo se intentó reiteradamente el registro en OCI siguiendo las recomendaciones oficiales; sin embargo, el acceso fue rechazado sin una causa técnica explícita, situación que también fue reportada por otros participantes del evento.
+>
+> Ante esta limitación externa, se optó por **alternativas cloud equivalentes** (Vercel, Hugging Face y AWS) que permiten demostrar plenamente la **arquitectura, resiliencia, despliegue y funcionamiento del sistema**, manteniendo los mismos principios de infraestructura propuestos en la consigna original.
+
 ### **💾 Persistencia en la Nube**
 
 - **Firebase Firestore**: Base de datos NoSQL principal para sincronización en tiempo real.
