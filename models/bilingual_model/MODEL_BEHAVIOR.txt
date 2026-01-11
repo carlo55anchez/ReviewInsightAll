@@ -1,0 +1,108 @@
+COMPORTAMIENTO DEL MODELO BILINGÜE ANTE RESEÑAS INDIVIDUALES
+==========================================================
+
+Este documento describe y analiza el comportamiento del modelo de análisis de sentimiento
+multiclase bilingüe (Español / Portugués) desarrollado en el presente proyecto, con especial
+énfasis en la interpretación de sus métricas globales y de sus niveles de confianza durante
+la inferencia sobre reseñas individuales.
+
+1. DESCRIPCIÓN GENERAL DEL MODELO
+--------------------------------
+El sistema implementa un clasificador de sentimiento ternario (Negativo, Positivo y Neutro)
+capaz de operar sobre reseñas en español y portugués, utilizando un enfoque clásico de
+Procesamiento de Lenguaje Natural (NLP).
+
+Las principales características del modelo son:
+
+- Representación textual mediante TF-IDF.
+- Clasificación multiclase basada en Logistic Regression.
+- Pipeline único entrenado de forma conjunta para ambos idiomas.
+- Estrategia de refuerzo lingüístico mediante tokens de idioma para evitar colisiones
+  semánticas entre español y portugués.
+- Modelo entrenado, serializado y preparado para inferencia en producción.
+
+El dataset de entrenamiento es balanceado, con un total de 1800 ejemplos de evaluación,
+distribuidos equitativamente entre las tres clases (600 ejemplos por clase), incluyendo
+reseñas en ambos idiomas.
+
+2. MÉTRICAS DE EVALUACIÓN
+------------------------
+El desempeño del modelo bilingüe fue evaluado utilizando métricas estándar de clasificación
+multiclase. Los resultados obtenidos son los siguientes:
+
+- Clase Negativa:
+  Precision: 0.76
+  Recall:    0.81
+  F1-Score:  0.78
+
+- Clase Positiva:
+  Precision: 0.81
+  Recall:    0.81
+  F1-Score:  0.81
+
+- Clase Neutra:
+  Precision: 0.67
+  Recall:    0.63
+  F1-Score:  0.65
+
+- Accuracy Global: 0.7517
+
+Estas métricas reflejan un desempeño consistente y equilibrado del modelo, con un rendimiento
+sólido en las clases polarizadas y una mejora apreciable en la detección de reseñas neutrales
+en comparación con el modelo monolingüe.
+
+3. ANÁLISIS DE LA MATRIZ DE CONFUSIÓN
+------------------------------------
+El análisis del comportamiento de clasificación del modelo bilingüe permite observar los
+siguientes patrones:
+
+- Las clases Positiva y Negativa presentan una alta tasa de aciertos en ambos idiomas.
+- La confusión directa entre Positivo y Negativo es mínima, lo que indica una separación
+  semántica clara de los extremos de polaridad.
+- La mayoría de los errores se concentran, como es habitual, en la clase Neutra.
+- Las reseñas neutrales tienden a ser clasificadas como Positivas o Negativas cuando el
+  texto contiene señales mixtas o evaluaciones implícitas.
+
+Este comportamiento es coherente con la naturaleza ambigua del sentimiento neutro y se
+mantiene estable tanto en español como en portugués, lo que indica que el modelo no presenta
+sesgos lingüísticos significativos.
+
+4. INTERPRETACIÓN DEL NIVEL DE CONFIANZA
+---------------------------------------
+Durante la inferencia sobre reseñas individuales, el modelo bilingüe produce niveles de
+confianza moderados a altos, generalmente dentro de los siguientes rangos:
+
+- Reseñas Positivas y Negativas largas: 70% a 85%
+- Reseñas Neutras largas: 80% a 90%
+- Reseñas cortas o ambiguas: 45% a 65%
+
+Este comportamiento es técnicamente esperado y se explica por los siguientes factores:
+
+- La clasificación es multiclase, lo que distribuye la probabilidad entre tres categorías.
+- Logistic Regression es un modelo lineal regularizado, que evita probabilidades extremas.
+- El vocabulario compartido entre idiomas introduce variabilidad controlada en las
+  representaciones TF-IDF.
+- La clase Neutra comparte rasgos semánticos con las clases polarizadas.
+
+Por lo tanto, una confianza moderada no debe interpretarse como un fallo del modelo, sino
+como una representación realista de la incertidumbre inherente al lenguaje natural,
+especialmente en un entorno bilingüe.
+
+5. CONCLUSIÓN
+-------------
+El análisis conjunto de las métricas, el comportamiento observado durante la inferencia y
+la comparación con el modelo monolingüe indican que el modelo bilingüe presenta un
+funcionamiento coherente, estable y técnicamente correcto.
+
+El modelo logra ampliar la cobertura lingüística sin degradar el rendimiento global,
+manteniendo una precisión comparable y, en algunos casos, superior al modelo entrenado
+exclusivamente en español.
+
+Las mejoras observadas en la clase Neutra y la estabilidad en los extremos de polaridad
+confirman que la estrategia de entrenamiento bilingüe y refuerzo lingüístico es adecuada
+para el objetivo planteado.
+
+En el contexto del proyecto, el modelo bilingüe cumple satisfactoriamente con los objetivos
+de clasificación de sentimiento multiclase, ofreciendo una inferencia consistente y una
+interpretación prudente de la incertidumbre en ambos idiomas.
+

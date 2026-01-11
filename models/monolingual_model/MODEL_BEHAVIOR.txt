@@ -1,0 +1,90 @@
+COMPORTAMIENTO DEL MODELO ANTE RESEÑAS INDIVIDUALES
+=================================================
+
+Este documento describe y analiza el comportamiento del modelo de análisis de sentimiento
+multiclase desarrollado en el presente proyecto, con especial énfasis en la interpretación
+de sus niveles de confianza durante la inferencia sobre reseñas individuales.
+
+1. DESCRIPCIÓN GENERAL DEL MODELO
+--------------------------------
+El sistema implementa un clasificador de sentimiento ternario (Negativo, Positivo y Neutro)
+basado en un enfoque clásico de Procesamiento de Lenguaje Natural (NLP), utilizando:
+
+- Representación textual mediante TF-IDF.
+- Clasificación multiclase con Logistic Regression.
+- Pipeline entrenado y serializado para inferencia en producción.
+- Servidor de inferencia expuesto mediante FastAPI.
+
+El modelo fue entrenado con un dataset balanceado, compuesto por aproximadamente 4500 reseñas,
+distribuidas de manera equitativa entre las tres clases (alrededor de 1500 ejemplos por clase).
+
+2. MÉTRICAS DE EVALUACIÓN
+------------------------
+El desempeño del modelo fue evaluado utilizando métricas estándar de clasificación multiclase.
+Los resultados obtenidos son los siguientes:
+
+- Clase Negativa:
+  Precision: 0.76
+  Recall:    0.82
+  F1-Score:  0.79
+
+- Clase Positiva:
+  Precision: 0.77
+  Recall:    0.82
+  F1-Score:  0.79
+
+- Clase Neutra:
+  Precision: 0.68
+  Recall:    0.57
+  F1-Score:  0.62
+
+- Accuracy Global: 0.7388
+
+Estas métricas indican un desempeño sólido en la detección de reseñas polarizadas
+(positivas y negativas), y un comportamiento más desafiante en la clase neutra,
+lo cual es esperable dada su naturaleza semántica ambigua.
+
+3. ANÁLISIS DE LA MATRIZ DE CONFUSIÓN
+------------------------------------
+La matriz de confusión del modelo muestra el siguiente comportamiento:
+
+- Las clases Positiva y Negativa presentan una alta tasa de aciertos.
+- Existe una confusión mínima directa entre Positivo y Negativo.
+- La mayoría de los errores se concentran en la clase Neutra, que tiende a ser
+  clasificada como Positiva o Negativa cuando el texto contiene señales mixtas.
+
+En particular, una proporción significativa de reseñas neutrales es interpretada
+como polaridad suave, lo que explica el menor recall de dicha clase.
+
+Este patrón confirma que el modelo distingue correctamente los extremos de polaridad,
+pero encuentra mayor dificultad al identificar textos descriptivos o ambiguos,
+característicos del sentimiento neutro.
+
+4. INTERPRETACIÓN DEL NIVEL DE CONFIANZA
+---------------------------------------
+Durante la inferencia sobre reseñas individuales, el modelo suele producir niveles
+de confianza moderados, generalmente en el rango del 60% al 75%, incluso cuando la
+predicción es correcta.
+
+Este comportamiento es consistente con las características del modelo y del problema:
+
+- La clasificación es multiclase, lo que distribuye la probabilidad entre más de dos clases.
+- Logistic Regression es un modelo lineal regularizado, que evita probabilidades extremas.
+- La clase Neutra comparte vocabulario con las clases Positiva y Negativa.
+- Los textos reales contienen múltiples señales semánticas, a veces contradictorias.
+
+Por este motivo, un nivel de confianza moderado no debe interpretarse como un fallo del
+modelo, sino como una representación realista de la incertidumbre inherente al lenguaje natural.
+
+5. CONCLUSIÓN
+-------------
+El análisis conjunto de las métricas, la matriz de confusión y los resultados de inferencia
+indican que el modelo presenta un comportamiento coherente, estable y técnicamente correcto.
+
+La moderación en los niveles de confianza observados es una consecuencia directa del enfoque
+multiclase, del equilibrio del dataset y de la ambigüedad semántica propia de las reseñas
+neutrales, y no un indicio de un mal entrenamiento o de un problema de calibración.
+
+En el contexto de un proyecto académico, el modelo cumple adecuadamente con los objetivos
+planteados, ofreciendo una clasificación fiable de sentimiento y una interpretación prudente
+de la incertidumbre durante la inferencia.
