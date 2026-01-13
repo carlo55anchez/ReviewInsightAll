@@ -365,6 +365,20 @@ El sistema utiliza una infraestructura **Multi-Cloud** distribuida para garantiz
 
 ---
 
+## 🎥 Video Demo
+
+Se incluye un video corto demostrando:
+
+- Clasificación individual y por lotes
+- Soporte bilingüe (ES / PT)
+- Logs en tiempo real
+- Exportación CSV
+- Persistencia dual y arquitectura resiliente
+
+🔗 Enlace al video: https://youtu.be/Lp2kKSu1fl8
+
+---
+
 ## 🔗 Enlace del Proyecto y Notas para Evaluación
 
 ### 🌐 Acceso a la Aplicación
